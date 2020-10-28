@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Listado de Usuarios">
+      <div class="table-responsive">
+        <table class="table table-hover table-sm">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Documento</th>
+              <th>Nombres</th>
+              <th>Apellido</th>
+              <th>Usuario</th>
+              <th>Cargo</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users; let i = index">
+              <td>{{ i + 1 }}</td>
+              <!-- <td>
+                <img
+                  src="assets/images/user/avatar-4.jpg"
+                  alt="user image"
+                  class="img-radius wid-40 align-top m-r-15"
+                />
+              </td> -->
+              <td>{{ user.documentUser }}</td>
+              <td>{{ user.nameUser }}</td>
+              <td>{{ user.lastnameUser }}</td>
+              <td>{{ user.emailUser }}</td>
+              <td>{{ user.positionUser }}</td>
+              <td>
+                <a
+                  [routerLink]="['../user/edit', user.documentUser]"
+                  class="btn btn-icon btn-outline-primary"
+                >
+                  <i class="far fa-edit"></i>
+                </a>
+                <button class="btn btn-icon btn-outline-danger">
+                  <i class="far fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-card>
+  </div>
+</div>

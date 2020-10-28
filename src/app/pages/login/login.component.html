@@ -1,0 +1,24 @@
+<div class="auth-wrapper">
+    <div class="auth-content text-center">
+      <img src="assets/images/globalgeek.png" alt="" class="img-fluid mb-4" />
+      <div class="card borderless">
+        <div class="row align-items-center text-center">
+          <div class="col-md-12">
+            <div class="card-body">
+              <mat-horizontal-stepper linear #stepper style="text-align: center">
+                <mat-step [stepControl]="formLogin">
+                  <ng-template matStepLabel>SIGN IN</ng-template>
+                  <app-signin [formGroup]="formLogin"></app-signin>
+                </mat-step>
+                <mat-step>
+                  <ng-template matStepLabel>VALIDATE</ng-template>
+                  <app-rekognition></app-rekognition>
+                </mat-step>
+              </mat-horizontal-stepper>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

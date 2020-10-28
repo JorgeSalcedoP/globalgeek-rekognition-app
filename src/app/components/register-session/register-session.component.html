@@ -1,0 +1,102 @@
+<div [formGroup]="sessionForm">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="emailUser">Usuario:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="emailUser"
+          formControlName="emailUser"
+          placeholder=""
+          [ngClass]="{
+            'is-invalid': f.emailUser.invalid && f.emailUser.touched,
+            'is-valid': f.emailUser.valid
+          }"
+          [(ngModel)]="userModel.emailUser"
+        />
+      </div>
+      <div class="form-group">
+        <label for="passwordUser">Password:</label>
+        <input
+          type="password"
+          class="form-control"
+          id="passwordUser"
+          formControlName="passwordUser"
+          placeholder=""
+          [ngClass]="{
+            'is-invalid': f.passwordUser.invalid && f.passwordUser.touched,
+            'is-valid': f.passwordUser.valid
+          }"
+          [(ngModel)]="userModel.passwordUser"
+        />
+      </div>
+      <div class="form-group">
+        <label for="positionUser">Cargo:</label>
+        <select
+          formControlName="positionUser"
+          id="positionUser"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': f.positionUser.invalid && f.positionUser.touched,
+            'is-valid': f.positionUser.valid
+          }"
+          [(ngModel)]="userModel.positionUser"
+        >
+          <option value="">---- Seleccione ----</option>
+          <option value="Administrador">Administrador</option>
+          <option value="Jefe">Jefe de Almacén</option>
+          <option value="Almacenero">Almacenero</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="custom-file">
+          <input
+            type="file"
+            class="custom-file-input"
+            id="photoUser"
+            formControlName="photoUser"
+            [ngClass]="{
+              'is-invalid': f.photoUser.invalid && f.photoUser.touched,
+              'is-valid': f.photoUser.valid
+            }"
+            (change)="fileChangeEvent($event)"
+          />
+          <label class="custom-file-label" for="photoUser">Subir Foto</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <button
+          class="btn btn-primary btn-block"
+          [disabled]="sessionForm.invalid"
+          (click)="getValue()"
+        >
+          Registrar Sesión
+        </button>
+      </div>
+    </div>
+    <div class="col-md-6" style="margin: 0 0;">
+      <div *ngIf="photoUrl == ''">
+        <div class="card-body" >
+          <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="3 / 4"
+          [resizeToWidth]="378"
+          [resizeToHeight]="508"
+          format="png"
+          (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()"
+          (loadImageFailed)="loadImageFailed()"
+          style="height: 310PX;"
+        ></image-cropper>
+        <button class="btn btn-primary btn-block" (click)="setPhoto()" [disabled]="!isPhoto">Aceptar</button>
+        </div>
+      </div>
+      <div *ngIf="photoUrl != ''" style="height: 370px;text-align: center;">
+        <img src="{{photoUrl}}" alt=""  style="height: 100%;">
+      </div>
+    </div>
+  </div>
+</div>

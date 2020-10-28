@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Nuevo Usuario">
+      <form [formGroup]="sessionForm">
+        <mat-horizontal-stepper linear #stepper style="text-align: center">
+          <mat-step><!--[stepControl]="f.userForm"-->
+            <ng-template matStepLabel>REGISTRAR USUARIO</ng-template>
+            <div formGroupName="userForm" style="text-align: left;">
+                <app-register-user [formGroup]="sessionForm" [userModel]="userModel"></app-register-user>
+            </div>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>REGISTRAR SESIÓN</ng-template>
+            <div formGroupName="userForm" style="text-align: left;">
+                <app-register-session [formGroup]="sessionForm" [userModel]="userModel"></app-register-session>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </form>
+    </app-card>
+  </div>
+</div>
