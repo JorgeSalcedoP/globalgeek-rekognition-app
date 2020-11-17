@@ -1,1 +1,170 @@
-<p>edit-user works!</p>
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Editar Usuario">
+      <form [formGroup]="editForm">
+        <div class="form-group">
+          <label for="documentUser">DNI:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="documentUser"
+            minlength="8"
+            formControlName="documentUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid': e.documentUser.invalid && e.documentUser.touched,
+              'is-valid': e.documentUser.valid
+            }"
+            [(ngModel)]="userModel.documentUser"
+          />
+          <div
+            *ngIf="e.documentUser?.errors?.required"
+            class="invalid-feedback"
+          >
+            El campo DNI es requerido
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="nameUser">Nombre:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nameUser"
+            formControlName="nameUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid': e.nameUser?.invalid && e.nameUser?.touched,
+              'is-valid': e.nameUser?.valid
+            }"
+            nameUser
+            [(ngModel)]="userModel.nameUser"
+          />
+          <div *ngIf="e.nameUser?.errors?.required" class="invalid-feedback">
+            El campo nombre es requerido
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="lastnameUser">Apellido:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastnameUser"
+            formControlName="lastnameUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid': e.lastnameUser.invalid && e.lastnameUser.touched,
+              'is-valid': e.lastnameUser.valid
+            }"
+            [(ngModel)]="userModel.lastnameUser"
+          />
+          <div
+            *ngIf="e.lastnameUser?.errors?.required"
+            class="invalid-feedback"
+          >
+            El campo apellido es requerido
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="personalEmailUser">Correo Personal:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="personalEmailUser"
+            formControlName="personalEmailUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                e.personalEmailUser.invalid && e.personalEmailUser.touched,
+              'is-valid': e.personalEmailUser.valid
+            }"
+            [(ngModel)]="userModel.personalEmailUser"
+          />
+          <div
+            *ngIf="e.personalEmailUser?.errors?.required"
+            class="invalid-feedback"
+          >
+            El campo correo personal es requerido
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="phoneUser">Celular:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="phoneUser"
+            formControlName="phoneUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid': e.phoneUser.invalid && e.phoneUser.touched,
+              'is-valid': e.phoneUser.valid
+            }"
+            [(ngModel)]="userModel.phoneUser"
+          />
+          <div *ngIf="e.phoneUser?.errors?.required" class="invalid-feedback">
+            El campo celular es requerido
+          </div>
+        </div>
+        <!-- <div class="form-group">
+          <label for="stateUser">Estado:</label>
+          <select
+          class="form-control"
+            formControlName="stateUser"
+            id="stateUser"
+            [(ngModel)]="userModel.stateUser"
+            [ngClass]="{
+              'is-invalid': e.stateUser.invalid && e.stateUser.touched,
+              'is-valid': e.stateUser.valid
+            }"
+          >
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+        </div> -->
+        <div class="form-group">
+          <label for="directionUser">Dirección:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="directionUser"
+            formControlName="directionUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid': e.directionUser.invalid && e.directionUser.touched,
+              'is-valid': e.directionUser.valid
+            }"
+            [(ngModel)]="userModel.directionUser"
+          />
+          <div
+            *ngIf="e.directionUser?.errors?.required"
+            class="invalid-feedback"
+          >
+            El campo dirección es requerido
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="positionUser">Cargo:</label>
+          <select
+            formControlName="positionUser"
+            id="positionUser"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': e.positionUser.invalid && e.positionUser.touched,
+              'is-valid': e.positionUser.valid
+            }"
+            [(ngModel)]="userModel.positionUser"
+          >
+            <option value="">---- Seleccione ----</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Jefe">Jefe de Almacén</option>
+            <option value="Almacenero">Almacenero</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block" (click)="updateUser()" [disabled]="editForm.invalid">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>

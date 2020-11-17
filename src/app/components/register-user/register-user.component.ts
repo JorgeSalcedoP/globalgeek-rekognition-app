@@ -21,7 +21,7 @@ export class RegisterUserComponent implements OnInit {
   getData() {
     var emailUser = this.userModel.nameUser.split(" ")[0] + '.' + this.userModel.lastnameUser.split(" ")[0] + "@globalgeek.pe";
     this.sessionForm.controls['emailUser'].setValue(emailUser.toLowerCase());
-    this.sessionForm.controls['passwordUser'].setValue('PruebaSoftware2020*');
+    this.sessionForm.controls['passwordUser'].setValue(this.userModel.documentUser);
   }
 
   get f() { return this.sessionForm.controls }

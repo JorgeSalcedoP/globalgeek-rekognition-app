@@ -11,6 +11,7 @@
               <th>Apellido</th>
               <th>Usuario</th>
               <th>Cargo</th>
+              <th>Status</th>
               <th></th>
             </tr>
           </thead>
@@ -24,19 +25,35 @@
                   class="img-radius wid-40 align-top m-r-15"
                 />
               </td> -->
-              <td>{{ user.documentUser }}</td>
-              <td>{{ user.nameUser }}</td>
-              <td>{{ user.lastnameUser }}</td>
-              <td>{{ user.emailUser }}</td>
-              <td>{{ user.positionUser }}</td>
+              <td>{{ user.documentUser.S }}</td>
+              <td>{{ user.nameUser.S }}</td>
+              <td>{{ user.lastnameUser.S }}</td>
+              <td>{{ user.emailUser.S }}</td>
+              <td>{{ user.positionUser.S }}</td>
+              <td>
+                {{ user.stateUser.S }}
+                <!-- <button
+                  class="btn btn-sm"
+                  [ngClass]="{
+                    'btn-success': user.stateUser == 'Activo',
+                    'btn-danger': user.stateUser != 'Activo'
+                  }"
+                  (click) = "changeState(user)"
+                >
+                  {{ user.stateUser.S }}
+                </button> -->
+              </td>
               <td>
                 <a
-                  [routerLink]="['../user/edit', user.documentUser]"
+                  [routerLink]="['../user/edit', user.documentUser.S]"
                   class="btn btn-icon btn-outline-primary"
                 >
                   <i class="far fa-edit"></i>
                 </a>
-                <button class="btn btn-icon btn-outline-danger">
+                <button
+                  class="btn btn-icon btn-outline-danger"
+                  (click)="deleteUser(user)"
+                >
                   <i class="far fa-trash-alt"></i>
                 </button>
               </td>

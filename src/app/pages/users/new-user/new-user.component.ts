@@ -24,7 +24,7 @@ export class NewUserComponent implements OnInit {
     passwordUser: '',
     positionUser: '',
     rekognitionId: '',
-    stateUser: "1"
+    stateUser: "Activo"
   }
 
   constructor(public fb: FormBuilder) {

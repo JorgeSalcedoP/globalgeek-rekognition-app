@@ -1,60 +1,63 @@
-<form [formGroup]="formLogin" style="width: 100%;text-align: left;">
-    <div class="form-group">
-      <label for="username">Usuario:</label>
-      <input
-        type="email"
-        class="form-control"
-        id="username"
-        formControlName="username"
-        [ngClass]="{
-          'is-invalid': f.username.invalid && f.username.touched,
-          'is-valid': f.username.valid
-        }"
-      />
-      <div
-        *ngIf="f.username?.errors?.required"
-        class="invalid-feedback"
-      >
-        El campo correo es requerido
-      </div>
-      <div *ngIf="f.username?.errors?.email" class="invalid-feedback">
-        El campo no tiene el formato de correo
-      </div>
+<form [formGroup]="formLogin" style="width: 100%; text-align: left">
+  <div class="form-group">
+    <label for="username">Usuario:</label>
+    <input
+      type="email"
+      class="form-control"
+      id="username"
+      formControlName="username"
+      [ngClass]="{
+        'is-invalid': f.username.invalid && f.username.touched,
+        'is-valid': f.username.valid
+      }"
+      [(ngModel)]="loginModel.username"
+    />
+    <div *ngIf="f.username?.errors?.required" class="invalid-feedback">
+      El campo correo es requerido
     </div>
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input
-        type="password"
-        class="form-control"
-        id="password"
-        formControlName="password"
-        [ngClass]="{
-          'is-invalid': f.password.invalid && f.password.touched,
-          'is-valid': f.password.valid
-        }"
-        
-      />
-      <div
-        *ngIf="f.password?.errors?.required"
-        class="invalid-feedback"
-      >
-        El campo correo es requerido
-      </div>
-      <div *ngIf="f.password?.errors?.pattern" class="invalid-feedback">
-        El campo debe considerar los siguientes caracteres <br />
-        <ul>
-          <li>Debe tener al entre 8 y 16 caracteres</li>
-          <li>Al menos un dígito</li>
-          <li>Al menos una minúscula</li>
-          <li>Al menos una mayúscula</li>
-          <li>Al menos un carácter no alfanumérico.</li>
-        </ul>
-      </div>
+    <div *ngIf="f.username?.errors?.email" class="invalid-feedback">
+      El campo no tiene el formato de correo
     </div>
-    <div>
-      <button mat-button matStepperNext class="btn btn-block btn-primary">
-        Iniciar
-      </button>
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      formControlName="password"
+      [ngClass]="{
+        'is-invalid': f.password.invalid && f.password.touched,
+        'is-valid': f.password.valid
+      }"
+      [(ngModel)]="loginModel.password"
+    />
+    <div *ngIf="f.password?.errors?.required" class="invalid-feedback">
+      El campo correo es requerido
     </div>
-  </form>
-  
+    <div *ngIf="f.password?.errors?.pattern" class="invalid-feedback">
+      El campo debe considerar los siguientes caracteres <br />
+      <ul>
+        <li>Debe tener al entre 8 y 16 caracteres</li>
+        <li>Al menos un dígito</li>
+        <li>Al menos una minúscula</li>
+        <li>Al menos una mayúscula</li>
+        <li>Al menos un carácter no alfanumérico.</li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <button
+      mat-button
+      class="btn btn-block btn-primary"
+      (click)="signin()" [disabled]="formLogin.invalid"
+    >
+      Iniciar
+    </button>
+  </div>
+  <div class="form-group small form-text" style="margin-top: 10px;">
+    <div *ngIf="isError" style="color: red;text-align: center;">
+      <span>El usuario o password es incorrecto</span>
+    </div>
+  </div>
+</form>

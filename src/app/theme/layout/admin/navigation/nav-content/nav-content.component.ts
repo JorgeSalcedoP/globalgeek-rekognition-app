@@ -3,6 +3,8 @@ import { NavigationItem } from '../navigation';
 import { NextConfig } from '../../../../../app-config';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { Auth, Storage } from 'aws-amplify';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -20,12 +22,20 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   public windowWidth: number;
   public isNavProfile: boolean;
 
+  photoUser: any;
+
+  auth: any = {
+    "name": "",
+    "position": "",
+    "document": ""
+  }
+
   @Output() onNavMobCollapse = new EventEmitter();
 
   @ViewChild('navbarContent') navbarContent: ElementRef;
   @ViewChild('navbarWrapper') navbarWrapper: ElementRef;
 
-  constructor(public nav: NavigationItem, private zone: NgZone, private location: Location,private router: Router) {
+  constructor(public nav: NavigationItem, private zone: NgZone, private location: Location, private router: Router,private authService:AuthService) {
     this.flatConfig = NextConfig.config;
     this.windowWidth = window.innerWidth;
 
@@ -46,6 +56,29 @@ export class NavContentComponent implements OnInit, AfterViewInit {
         (document.querySelector('#nav-ps-flat-able') as HTMLElement).style.maxHeight = '100%';
       }, 500);
     }
+
+    Auth.currentUserInfo().then(
+      res => {
+        this.auth.name = res.attributes.name;
+        this.auth.position = res.attributes['custom:position'];
+        this.auth.document = res.attributes['custom:document'];
+        Storage.get(this.auth.document+'.jpg').then(
+          object => {
+            this.photoUser = object;
+          }
+        ).catch(
+          err => {
+            console.error(err);
+          }
+        );
+      }
+    ).catch(
+      err => {
+        console.error(err);
+      }
+    );
+
+
   }
 
   ngAfterViewInit() {
@@ -62,7 +95,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       this.nextDisabled = 'disabled';
     }
     this.prevDisabled = '';
-    if(this.flatConfig.rtlLayout) {
+    if (this.flatConfig.rtlLayout) {
       (document.querySelector('#side-nav-horizontal') as HTMLElement).style.marginRight = '-' + this.scrollWidth + 'px';
     } else {
       (document.querySelector('#side-nav-horizontal') as HTMLElement).style.marginLeft = '-' + this.scrollWidth + 'px';
@@ -76,7 +109,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       this.prevDisabled = 'disabled';
     }
     this.nextDisabled = '';
-    if(this.flatConfig.rtlLayout) {
+    if (this.flatConfig.rtlLayout) {
       (document.querySelector('#side-nav-horizontal') as HTMLElement).style.marginRight = '-' + this.scrollWidth + 'px';
     } else {
       (document.querySelector('#side-nav-horizontal') as HTMLElement).style.marginLeft = '-' + this.scrollWidth + 'px';
@@ -103,7 +136,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       const last_parent = up_parent.parentElement;
       if (parent.classList.contains('pcoded-hasmenu')) {
         parent.classList.add('active');
-      } else if(up_parent.classList.contains('pcoded-hasmenu')) {
+      } else if (up_parent.classList.contains('pcoded-hasmenu')) {
         up_parent.classList.add('active');
       } else if (last_parent.classList.contains('pcoded-hasmenu')) {
         last_parent.classList.add('active');
@@ -133,7 +166,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
           parent.classList.add('pcoded-trigger');
         }
         parent.classList.add('active');
-      } else if(up_parent.classList.contains('pcoded-hasmenu')) {
+      } else if (up_parent.classList.contains('pcoded-hasmenu')) {
         if (this.flatConfig['layout'] === 'vertical') {
           up_parent.classList.add('pcoded-trigger');
         }
@@ -147,8 +180,17 @@ export class NavContentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  logout(){
-    this.router.navigate(['login']);
+  logout() {
+    Auth.signOut({ global: true }).then(
+      res => {
+        this.authService.logout();
+        this.router.navigate(['login']);
+      }
+    ).catch(
+      err => {
+        console.error(err);
+      }
+    );
   }
 
 }

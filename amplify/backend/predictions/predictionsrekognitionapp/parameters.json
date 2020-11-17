@@ -1,0 +1,18 @@
+{
+    "resourceName": "predictionsrekognitionapp",
+    "identifyPolicyName": "identifyPolicy4a5d500d",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "adminAuthProtected": "DISALLOW",
+    "adminGuestProtected": "DISALLOW",
+    "identifyType": "identifyEntities",
+    "access": "auth",
+    "celebrityDetectionEnabled": false,
+    "maxEntities": 0,
+    "adminTask": false,
+    "folderPolicies": ""
+}

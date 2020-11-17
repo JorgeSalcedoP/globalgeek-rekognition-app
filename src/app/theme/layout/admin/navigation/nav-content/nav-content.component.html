@@ -2,17 +2,17 @@
   <div class="navbar-content">
     <div class="">
       <div class="main-menu-header">
-        <img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="User-Profile-Image">
+        <img class="img-radius" src="{{photoUser}}" alt="User-Profile-Image">
         <div class="user-details" (click)="isNavProfile = !isNavProfile">
-          <span>John Doe</span>
-          <div id="more-details">UX Designer<i class="fa m-l-5" [ngClass]="{'fa-chevron-up': isNavProfile, 'fa-chevron-down': !isNavProfile }"></i></div>
+          <span>{{ auth.name }}</span>
+          <div id="more-details">{{ auth.position }}<i class="fa m-l-5" [ngClass]="{'fa-chevron-up': isNavProfile, 'fa-chevron-down': !isNavProfile }"></i></div>
         </div>
       </div>
       <div class="collapse" id="nav-user-link" *ngIf="isNavProfile" [style.display]="'block'">
         <ul class="list-inline">
           <li class="list-inline-item"></li>
-          <li class="list-inline-item"></li>
-          <li class="list-inline-item"><button class="btn text-danger" (click)="logout()"><i class="feather icon-power m-r-5"></i></button></li>
+          <li class="list-inline-item"><label for="btn-signout" style="font-size: small;">Cerrar Sesión</label></li>
+          <li class="list-inline-item"><button class="btn text-danger" (click)="logout()" id="btn-signout"><i class="feather icon-power m-r-5"></i></button></li>
         </ul>
       </div>
     </div>

@@ -2,6 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormGroup } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { UserModel } from 'src/app/model/user.model';
+import Amplify, { Auth, Storage, Predictions } from 'aws-amplify';
+import { ImageService } from 'src/app/services/image.service';
+import { first } from 'rxjs/operators';
+import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-session',
@@ -9,16 +16,31 @@ import { UserModel } from 'src/app/model/user.model';
   styleUrls: ['./register-session.component.scss']
 })
 export class RegisterSessionComponent implements OnInit {
-  
+
   @Input() userModel;
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
   public sessionForm: FormGroup;
   photoUrl: any = '';
-  isPhoto : boolean = false;
+  isPhoto: boolean = false;
 
-  constructor(private controlContainer: ControlContainer) { }
+  photoUser: any = {
+    file: '',
+    name: '',
+    type: '',
+    size: 0,
+    dni: ''
+  }
+
+  constructor(
+    private controlContainer: ControlContainer,
+    private imageService: ImageService,
+    private userService: UserService,
+    private imageCompress: NgxImageCompressService,
+    private router: Router,
+    private activeRoute: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
     this.sessionForm = <FormGroup>this.controlContainer.control;
@@ -27,26 +49,51 @@ export class RegisterSessionComponent implements OnInit {
   get f() { return this.sessionForm.controls }
   get v() { return this.sessionForm.controls.userForm['controls'] }
 
-  imagesPreview(event) {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-
-      reader.onload = (_event: any) => {
-        this.photoUrl = _event.target.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }
-
   fileChangeEvent(event: any): void {
-    this.sessionForm.controls['photoUrl'].setValue('');
-    this.isPhoto = true;
-    this.photoUrl = "";
-    this.imageChangedEvent = event;
+    console.log(event.target.files[0]);
+    var file = event.target.files[0];
+    if (file.type === 'image/jpeg') {
+      this.photoUser.type = file.type;
+      this.photoUser.size = file.size;
+      this.isPhoto = true;
+      this.photoUrl = "";
+      this.imageChangedEvent = event;
+    } else {
+      this.imageChangedEvent = null;
+    }
+
   }
   imageCropped(event: ImageCroppedEvent) {
+    this.photoUser.file = event.base64;
+    this.isPhoto = false;
+    this.imageService.detectFaces(this.photoUser).subscribe(
+      res => {
+        var json_string = JSON.stringify(res);
+        var json = JSON.parse(json_string);
+        if (json.FaceDetails.length == 0) {
+          Swal.fire({
+            title: 'Rostro no encontrado',
+            text: 'Por favor, seleccione una imagen que contenga un rostro en ella.',
+            type: 'error'
+          })
+        } else if (json.FaceDetails.length > 1) {
+          Swal.fire({
+            title: 'Rostros encontrados',
+            text: 'Por favor, seleccione una imagen que contenga solo un rostro en ella.',
+            type: 'warning'
+          })
+        } else {
+          this.croppedImage = event.base64;
+          this.photoUser.file = event.base64;
+          this.isPhoto = true;
+        }
+      },
+      err => {
+        console.error(err);
+      }
+    );
 
-    this.croppedImage = event.base64;
+
   }
   imageLoaded() {
     // show cropper
@@ -63,7 +110,65 @@ export class RegisterSessionComponent implements OnInit {
     this.sessionForm.controls['photoUrl'].setValue(this.photoUrl);
   }
 
-  getValue(){
-    console.log(this.userModel);
+  validateSize(file) {
+    if (file.size > 100000) {
+      this.imageCompress.compressFile(this.photoUser.file, 1, 50, 50).then(
+        res => {
+          this.photoUser.file = res;
+        }
+      ).catch(
+        err => {
+          console.error(err);
+        }
+      );
+    }
   }
+
+  async getValue() {
+    this.photoUser.dni = this.userModel.documentUser;
+    this.photoUser.name = this.userModel.documentUser + ".jpg";
+    this.validateSize(this.photoUser);
+
+    this.imageService.putFace(this.photoUser).subscribe(
+      photo => {
+        this.userService.signUp(this.userModel).subscribe(
+          res => {
+            this.userService.createUser(this.userModel).subscribe(
+              user => {
+                console.log(user);
+                if (user.Attributes) {
+                  Swal.fire({
+                    title: "Success!",
+                    text: "Usuario " + this.userModel.documentUser + " agregado correctamente.",
+                    type: "success"
+                  });
+                  this.router.navigate(['../../users'], { relativeTo: this.activeRoute });
+                }
+              },
+              err => {
+                Swal.fire({
+                  title: "Error!",
+                  text: "Usuario " + this.userModel.documentUser + " no agregado.",
+                  type: "error"
+                });
+              }
+            );
+          },
+          err => {
+            Swal.fire({
+              title: "Error!",
+              text: "Usuario " + this.userModel.documentUser + " no agregado.",
+              type: "error"
+            });
+            console.error(err);
+          }
+        );
+      },
+      err => {
+        console.error(err);
+      }
+    );
+
+  }
+
 }

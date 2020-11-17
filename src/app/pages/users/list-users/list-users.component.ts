@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UserModel } from 'src/app/model/user.model';
+import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-users',
@@ -9,35 +12,53 @@ export class ListUsersComponent implements OnInit {
 
   users: any = [];
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.users = [
-      {
-        directionUser: "SJM",
-        documentUser: "73570250",
-        emailUser: "jorge.salcedo@globalgeek.pe",
-        lastnameUser: "Salcedo Prado",
-        nameUser: "Jorge Luis",
-        passwordUser: "PruebaSoftware2020*",
-        personalEmailUser: "abc@gmail.com",
-        phoneUser: "972093945",
-        positionUser: "Administrador",
-        rekognitionId: ""
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.userService.getUsers().subscribe(
+      res => {
+        this.users = res;
       },
-      {
-        directionUser: "SURCO",
-        documentUser: "08254521",
-        emailUser: "jorge.prado@globalgeek.pe",
-        lastnameUser: "Prado Prado",
-        nameUser: "Jorge",
-        passwordUser: "PruebaSoftware2020*",
-        personalEmailUser: "abc2@gmail.com",
-        phoneUser: "972093945",
-        positionUser: "Almacenero",
-        rekognitionId: ""
+      err => {
+        console.error(err);
       }
-    ]
+    );
+  }
+
+  deleteUser(userModel: any) {
+    Swal.fire({
+      title: '¿Esta seguro?',
+      text: `Esta seguro de borrar el usuario  ${userModel.documentUser.S}`,
+      type: 'warning',
+      showConfirmButton: true,
+      showCancelButton: true
+    }).then(resp => {
+      if (resp.value) {
+        this.userService.deleteUser(userModel).subscribe(
+          res => {
+            console.log(res);
+            Swal.fire({
+              title: 'Eliminado',
+              text: `El usuario ${userModel.documentUser.S} fue Eliminado`,
+              type: 'success',
+            });
+            this.getUsers();
+          },
+          err => {
+            Swal.fire({
+              title: 'Error!',
+              text: `El usuario ${userModel.documentUser.S} no fue Eliminado`,
+              type: 'error',
+            });
+            console.error(err)
+          }
+        );
+      }
+    });
   }
 
 }

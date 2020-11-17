@@ -1,1 +1,59 @@
-<p>rekognition works!</p>
+<form [formGroup]="formLogin">
+  <div class="card-body" style="padding: 0">
+    <webcam
+      [width]="336"
+      [trigger]="triggerObservable"
+      (imageCapture)="handleImage($event)"
+      *ngIf="showWebcam"
+      [allowCameraSwitch]="allowCameraSwitch"
+      [switchCamera]="nextWebcamObservable"
+      [videoOptions]="videoOptions"
+      [imageQuality]="1"
+      (cameraSwitched)="cameraWasSwitched($event)"
+      (initError)="handleInitError($event)"
+      [mirrorImage]="'never'"
+      style="margin: 0"
+    ></webcam>
+  </div>
+  <div class="card-body" style="padding: 0; width: 336px" *ngIf="webcamImage">
+    <img [src]="webcamImage.imageAsDataUrl" style="width: 100%" />
+  </div>
+  <div class="card-footer" style="padding: 0; margin-top: 10px">
+    <div class="btn-group" role="group" style="width: 100%">
+      <button
+        class="btn btn-info"
+        (click)="toggleWebcam()"
+        *ngIf="!showWebcam"
+        style="width: 100%"
+      >
+        Activar
+      </button>
+      <button
+        class="btn btn-info"
+        (click)="toggleWebcam()"
+        *ngIf="showWebcam"
+        style="width: 100%"
+      >
+        Desactivar
+      </button>
+      <button
+        class="btn btn-secondary"
+        (click)="triggerSnapshot()"
+        *ngIf="showWebcam"
+        style="width: 100%"
+      >
+        Capturar
+      </button>
+      <button
+        class="btn btn-primary"
+        (click)="customChallenge()"
+        *ngIf="!showWebcam && webcamImage != null"
+        style="width: 100%"
+        [disabled]="isValid"
+      >
+        <span class="spinner-border spinner-border-sm" role="status" *ngIf="loading"></span>
+        Validar
+      </button>
+    </div>
+  </div>
+</form>

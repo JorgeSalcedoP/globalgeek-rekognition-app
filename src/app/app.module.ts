@@ -18,11 +18,13 @@ import { NavLeftComponent } from './theme/layout/admin/nav-bar/nav-left/nav-left
 import { NavSearchComponent } from './theme/layout/admin/nav-bar/nav-left/nav-search/nav-search.component';
 import { NavRightComponent } from './theme/layout/admin/nav-bar/nav-right/nav-right.component';
 import { ConfigurationComponent } from './theme/layout/admin/configuration/configuration.component';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule } from '@angular/material/input';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { ToggleFullScreenDirective } from './theme/shared/full-screen/toggle-full-screen';
 import { ArchwizardModule } from 'angular-archwizard';
+import { JwtInterceptor } from './middleware/jwt-interceptor';
+import { ErrorInterceptor } from './middleware/error-interceptor';
 
 /* Menu Items */
 import { NavigationItem } from './theme/layout/admin/navigation/navigation';
@@ -36,6 +38,18 @@ import { RegisterUserComponent } from './components/register-user/register-user.
 import { RegisterSessionComponent } from './components/register-session/register-session.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EditUserComponent } from './pages/users/edit-user/edit-user.component';
+import { ToastrModule } from 'ngx-toastr';
+import { WebcamModule } from 'ngx-webcam';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { NgxImageCompressService } from 'ngx-image-compress';
+
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from '../aws-exports';
+import { NotfoundComponent } from './pages/notfound/notfound.component';
+import { AuthGuard } from './middleware/auth.guard';
+Amplify.configure(awsconfig);
 
 @NgModule({
   declarations: [
@@ -60,7 +74,9 @@ import { EditUserComponent } from './pages/users/edit-user/edit-user.component';
     NewUserComponent,
     RegisterUserComponent,
     RegisterSessionComponent,
-    EditUserComponent
+    EditUserComponent,
+    ChangePasswordComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,
@@ -75,9 +91,18 @@ import { EditUserComponent } from './pages/users/edit-user/edit-user.component';
     MatFormFieldModule,
     MatInputModule,
     ArchwizardModule,
-    ImageCropperModule
+    ImageCropperModule,
+    ToastrModule.forRoot(),
+    WebcamModule,
+    HttpClientModule,
   ],
-  providers: [NavigationItem],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    NavigationItem,
+    NgxImageCompressService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

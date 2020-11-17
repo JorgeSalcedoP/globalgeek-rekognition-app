@@ -1,0 +1,29 @@
+{
+  "auth": {
+    "rekognitionapp2a23555f": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
+  "storage": {
+    "rekognitionapps3": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    },
+    "undefined": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
+  },
+  "function": {},
+  "predictions": {
+    "predictionsrekognitionapp": {
+      "providerPlugin": "awscloudformation",
+      "service": "Rekognition",
+      "dependsOn": [],
+      "identifyType": "identifyEntities"
+    }
+  }
+}

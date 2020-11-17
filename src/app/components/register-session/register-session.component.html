@@ -61,6 +61,7 @@
               'is-valid': f.photoUser.valid
             }"
             (change)="fileChangeEvent($event)"
+            accept="image/*"
           />
           <label class="custom-file-label" for="photoUser">Subir Foto</label>
         </div>
@@ -84,7 +85,7 @@
           [aspectRatio]="3 / 4"
           [resizeToWidth]="378"
           [resizeToHeight]="508"
-          format="png"
+          format="jpeg"
           (imageCropped)="imageCropped($event)"
           (imageLoaded)="imageLoaded()"
           (cropperReady)="cropperReady()"
@@ -95,7 +96,7 @@
         </div>
       </div>
       <div *ngIf="photoUrl != ''" style="height: 370px;text-align: center;">
-        <img src="{{photoUrl}}" alt=""  style="height: 100%;">
+        <img [src]="croppedImage" alt=""  style="height: 100%;">
       </div>
     </div>
   </div>

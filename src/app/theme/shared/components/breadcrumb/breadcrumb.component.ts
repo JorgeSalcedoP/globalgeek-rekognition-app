@@ -71,7 +71,7 @@ export class BreadcrumbComponent implements OnInit {
             } else {
               if (b.type === 'collapse' && 'children' in b) {
                 b.children.forEach((c) => {
-                  if (c.type === 'item' && 'url' in c && (('/admin/' + c.url) === activeLink || ('/user/' + c.url) === activeLink)) {
+                  if (c.type === 'item' && 'url' in c && (('/admin/' + c.url) == activeLink || ('/user/' + c.url) == activeLink)) {
                     result = [
                       {
                         url: ('url' in b) ? b.url : false,
@@ -88,23 +88,32 @@ export class BreadcrumbComponent implements OnInit {
                     ];
                     title = c.title;
                   } else {
-                    console.log(activeLink);
-                    if(activeLink != '/admin' && activeLink != '/user'){
-                      result = [
-                        {
-                          url: ('url' in b) ? b.url : false,
-                          title: b.title,
-                          breadcrumbs: ('breadcrumbs' in b) ? b.breadcrumbs : true,
-                          type: b.type
-                        },
-                        {
-                          url: ('url' in c) ? c.url : false,
-                          title: 'Editar ' + b.title,
-                          breadcrumbs: ('breadcrumbs' in c) ? c.breadcrumbs : true,
-                          type: c.type
+                    if (c.type === 'collapse' && 'children' in c) {
+                      c.children.forEach((d) => {
+                        if (d.type === 'item' && 'url' in d && d.url === activeLink) {
+                          result = [
+                            {
+                              url: ('url' in b) ? b.url : false,
+                              title: b.title,
+                              breadcrumbs: ('breadcrumbs' in b) ? b.breadcrumbs : true,
+                              type: b.type
+                            },
+                            {
+                              url: ('url' in c) ? c.url : false,
+                              title: c.title,
+                              breadcrumbs: ('breadcrumbs' in c) ? c.breadcrumbs : true,
+                              type: c.type
+                            },
+                            {
+                              url: ('url' in d) ? d.url : false,
+                              title: d.title,
+                              breadcrumbs: ('breadcrumbs' in c) ? d.breadcrumbs : true,
+                              type: d.type
+                            }
+                          ];
+                          title = d.title;
                         }
-                      ];
-                      title = c.title;
+                      });
                     }
                   }
                 });

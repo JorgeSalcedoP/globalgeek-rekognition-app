@@ -1,24 +1,40 @@
 <div class="auth-wrapper">
-    <div class="auth-content text-center">
-      <img src="assets/images/globalgeek.png" alt="" class="img-fluid mb-4" />
-      <div class="card borderless">
-        <div class="row align-items-center text-center">
-          <div class="col-md-12">
-            <div class="card-body">
-              <mat-horizontal-stepper linear #stepper style="text-align: center">
-                <mat-step [stepControl]="formLogin">
-                  <ng-template matStepLabel>SIGN IN</ng-template>
-                  <app-signin [formGroup]="formLogin"></app-signin>
-                </mat-step>
-                <mat-step>
-                  <ng-template matStepLabel>VALIDATE</ng-template>
-                  <app-rekognition></app-rekognition>
-                </mat-step>
-              </mat-horizontal-stepper>
-            </div>
+  <div class="auth-content text-center">
+    <img src="assets/images/globalgeek.png" alt="" class="img-fluid mb-4" />
+    <div class="card borderless">
+      <div class="row align-items-center text-center">
+        <div class="col-md-12">
+          <div class="card-body" *ngIf="!isResetPassword; else resetPassword">
+            <mat-horizontal-stepper linear #stepper style="text-align: center">
+              <mat-step [stepControl]="formLogin">
+                <!-- [stepControl]="formLogin" -->
+                <ng-template matStepLabel>SIGN IN</ng-template>
+                <app-signin
+                  [formGroup]="formLogin"
+                  [loginModel]="loginModel"
+                  (newPasswordEvent)="showNewPassword($event)"
+                  [stepper]="stepper"
+                ></app-signin>
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>VALIDATE</ng-template>
+                <app-rekognition
+                  [loginModel]="loginModel"
+                  [formGroup]="formLogin"
+                ></app-rekognition>
+              </mat-step>
+            </mat-horizontal-stepper>
           </div>
+          <ng-template #resetPassword>
+            <div class="card-body">
+              <app-change-password
+                [formGroup]="changePasswordForm"
+                [loginModel]="loginModel"
+              ></app-change-password>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
