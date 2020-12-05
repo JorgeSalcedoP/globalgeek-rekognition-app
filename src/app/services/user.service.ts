@@ -35,4 +35,9 @@ export class UserService {
     return this.http.post<UserModel>(`${environment.apiUrl}/users/user`, userModel);
   }
 
+  getUserInformation(documentUser:string,typeAction:string){
+    let param1 =  new HttpParams().set("documentUser",documentUser).set("typeAction",typeAction);
+    return this.http.get(`${environment.apiUrl}/attendance/employee`,{responseType:"json",params:param1});
+  }
+
 }

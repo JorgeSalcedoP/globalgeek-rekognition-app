@@ -51,6 +51,20 @@ const NavigationItems = [
             url: 'user/nuevo'
           },
         ]
+      },
+      {
+        id: 'control-lu',
+        title: 'Control',
+        type: 'collapse',
+        icon: 'feather icon-calendar',
+        children: [
+          {
+            id: 'control',
+            title: 'Controlar Asistencia',
+            type: 'item',
+            url: 'control',
+          }
+        ]
       }
     ]
   }

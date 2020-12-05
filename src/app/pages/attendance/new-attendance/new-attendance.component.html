@@ -1,0 +1,95 @@
+<div class="auth-wrapper">
+  <div class="auth-content text-center" style="width: 500px">
+    <img src="assets/images/globalgeek.png" alt="" class="img-fluid mb-4" />
+    <div class="card borderless">
+      <div class="row align-items-center text-left">
+        <div class="col-md-12">
+          <div class="card-body">
+            <mat-horizontal-stepper linear #stepper style="text-align: left">
+              <mat-step [stepControl]="formAttendance">
+                <ng-template matStepLabel>CREDENCIALES</ng-template>
+                <form [formGroup]="formAttendance">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="documentUser">Documento de Identidad</label>
+                        <input
+                          type="text"
+                          name="documentUser"
+                          id="documentUser"
+                          class="form-control"
+                          placeholder=""
+                          formControlName="documentUser"
+                          [ngClass]="{
+                            'is-invalid': f.documentUser.invalid && f.documentUser.touched,
+                            'is-valid': f.documentUser.valid
+                          }"
+                        />
+                        <div *ngIf="f.documentUser?.errors?.required" class="invalid-feedback">
+                          El campo documento es requerido
+                        </div>
+                        <div *ngIf="f.documentUser?.errors?.pattern" class="invalid-feedback">
+                          El campo documento solo acepta campos númericos
+                        </div>
+                        <div *ngIf="f.documentUser?.errors?.minLength" class="invalid-feedback">
+                          El campo documento debe tener 8 dígitos
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="typeAction">Marcar</label>
+                        <select
+                          name="typeAction"
+                          id="typeAction"
+                          class="form-control"
+                          formControlName="typeAction"
+                          [ngClass]="{
+                            'is-invalid': f.typeAction.invalid && f.typeAction.touched,
+                            'is-valid': f.typeAction.valid
+                          }"
+                        >
+                          <option value="">--Seleccione--</option>
+                          <option value="Entrada">Entrada</option>
+                          <option value="Salida">Salida</option>
+                        </select>
+                        <div *ngIf="f.typeAction?.errors?.required" class="invalid-feedback">
+                          El campo es requerido
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12" style="text-align: left">
+                      <button
+                        class="btn btn-primary btn-block"
+                        [disabled]="formAttendance.invalid"
+                        (click)="getUser()"
+                      >
+                        MARCAR
+                      </button>
+                    </div>
+                    <div class="col-md-12" style="text-align: center">
+                      <div class="form-group">
+                        <div
+                          *ngIf="error != ''"
+                          style="color: red; text-align: center;margin-top: 10px;"
+                        >
+                          <span>{{ error }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </mat-step>
+              <mat-step>
+                <ng-template matStepLabel>VERIFICAR</ng-template>
+                <app-rekognition
+                  [loginModel]="loginModel"
+                  [formGroup]="formLogin"
+                  [action]="'attendance'"
+                ></app-rekognition>
+              </mat-step>
+            </mat-horizontal-stepper>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

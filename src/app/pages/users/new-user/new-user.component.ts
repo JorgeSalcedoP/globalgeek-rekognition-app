@@ -23,6 +23,7 @@ export class NewUserComponent implements OnInit {
     emailUser: '',
     passwordUser: '',
     positionUser: '',
+    scheduleUser : '',
     rekognitionId: '',
     stateUser: "Activo"
   }
@@ -41,7 +42,8 @@ export class NewUserComponent implements OnInit {
       passwordUser: [{ value: '', disabled: true }],
       photoUser: ['', [Validators.required]],
       photoUrl: [this.photoUrl,[Validators.required]],
-      positionUser: ['', [Validators.required]]
+      positionUser: ['', [Validators.required]],
+      scheduleUser : ['',[Validators.required]]
     })
 
 

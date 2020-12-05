@@ -5,6 +5,8 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Auth, Storage } from 'aws-amplify';
 import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-nav-content',
@@ -181,16 +183,29 @@ export class NavContentComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    Auth.signOut({ global: true }).then(
-      res => {
-        this.authService.logout();
-        this.router.navigate(['login']);
+    Swal.fire({
+      title: 'Cerrar Sesión ?',
+      text: "Estas a punto de cerrar la sesión !",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Cerrar'
+    }).then((result) => {
+      if (result.value) {
+        Auth.signOut({ global: true }).then(
+          res => {
+            this.authService.logout();
+            this.router.navigate(['login']);
+          }
+        ).catch(
+          err => {
+            console.error(err);
+          }
+        );
       }
-    ).catch(
-      err => {
-        console.error(err);
-      }
-    );
+    })
+
   }
 
 }

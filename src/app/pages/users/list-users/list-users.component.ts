@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Auth } from 'aws-amplify';
 import { UserModel } from 'src/app/model/user.model';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -12,10 +13,17 @@ export class ListUsersComponent implements OnInit {
 
   users: any = [];
 
+  currentUser:string = "";
+
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.getUsers();
+    Auth.currentUserInfo().then(
+      user => {
+        this.currentUser = user.attributes['custom:document'];
+      }
+    ).catch();
   }
 
   getUsers() {

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-nav-right',
@@ -10,11 +11,12 @@ import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 })
 export class NavRightComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private authService:AuthService) { }
 
   ngOnInit() { }
 
   logout(){
+    this.authService.logout();
     this.router.navigate['login'];
   }
 }

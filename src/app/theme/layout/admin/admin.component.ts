@@ -1,6 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { NextConfig } from '../../../app-config';
 import { Location } from '@angular/common';
+import { Auth } from 'aws-amplify';
 
 @Component({
   selector: 'app-admin',

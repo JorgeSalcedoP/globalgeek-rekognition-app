@@ -26,6 +26,7 @@ export class EditUserComponent implements OnInit {
     positionUser: '',
     rekognitionId: '',
     stateUser: '',
+    scheduleUser : ''
   };
 
   constructor(
@@ -42,6 +43,7 @@ export class EditUserComponent implements OnInit {
       phoneUser : ['',[ Validators.required, Validators.pattern('[0-9]*')]],
       directionUser : ['',[Validators.required]],
       positionUser : ['',[Validators.required]],
+      scheduleUser : ['',[Validators.required]]
       // stateUser : ['',[Validators.required]]
     });
   }
@@ -67,6 +69,7 @@ export class EditUserComponent implements OnInit {
           this.userModel.stateUser = res.stateUser.S;
           this.userModel.positionUser = res.positionUser.S;
           this.userModel.emailUser = res.emailUser.S;
+          this.userModel.scheduleUser = res.scheduleUser.S;
         },
         err => {
           console.log(err);

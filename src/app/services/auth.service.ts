@@ -10,6 +10,7 @@ import { LoginModel } from '../model/login';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
 
   user : any ;
@@ -23,19 +24,19 @@ export class AuthService {
     ) {
       if(localStorage.getItem("token")){
         this.token = JSON.parse(localStorage.getItem("token"));
-        this.user = jwt_decode(localStorage.getItem("token"))
+        this.user = jwt_decode(localStorage.getItem("token"));
       }
-      this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('token')));
+      this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem("token")));
       this.currentUser = this.currentUserSubject.asObservable();
     }
 
     setToken(user:any){
-      localStorage.setItem('token',JSON.stringify(user.signInUserSession.idToken.jwtToken));
+      localStorage.setItem("token",JSON.stringify(user.signInUserSession.idToken.jwtToken));
       this.currentUserSubject.next(user);
       this.user = jwt_decode(user.signInUserSession.idToken.jwtToken);
     }
 
-    logout( user = "admin") : void {
+    logout() : void {
       localStorage.removeItem("token");
       this.currentUserSubject.next(null);
       this.user = null ;
@@ -44,6 +45,11 @@ export class AuthService {
 
     login(loginModel:LoginModel){
       return Auth.signIn(loginModel.username,loginModel.password);
+    }
+
+    getToken(){
+      this.token = localStorage.getItem("token");
+      
     }
 
 

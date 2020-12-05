@@ -53,6 +53,7 @@
                 <button
                   class="btn btn-icon btn-outline-danger"
                   (click)="deleteUser(user)"
+                  *ngIf="currentUser != user.documentUser.S"
                 >
                   <i class="far fa-trash-alt"></i>
                 </button>

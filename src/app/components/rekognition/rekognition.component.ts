@@ -1,11 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Storage, Predictions, Auth } from 'aws-amplify';
+import { Storage, Predictions, Auth, JS } from 'aws-amplify';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
+import { AttendanceService } from 'src/app/services/attendance.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ImageService } from 'src/app/services/image.service';
+import { UserAuthService } from 'src/app/services/user-auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,6 +18,7 @@ import Swal from 'sweetalert2';
 export class RekognitionComponent implements OnInit {
 
   @Input() loginModel;
+  @Input() action;
   public formLogin: FormGroup;
 
   isValid: boolean = false;
@@ -26,6 +29,8 @@ export class RekognitionComponent implements OnInit {
     private imageService: ImageService,
     private authService: AuthService,
     private controlContainer: ControlContainer,
+    private userAuthService: UserAuthService,
+    private attendanceService: AttendanceService
   ) { }
 
   photoUser: any = {
@@ -127,17 +132,27 @@ export class RekognitionComponent implements OnInit {
     this.imageService.signinPhoto(this.photoUser).subscribe(
       photo => {
         Auth.signIn(this.loginModel.username).then(
-          user => {
-            Auth.sendCustomChallengeAnswer(user, photo.Key).then(
+          async user => {
+            await Auth.sendCustomChallengeAnswer(user, photo.Key).then(
               sigin => {
-                this.authService.setToken(sigin);
-                this.router.navigate(['/admin']);
+                console.log(sigin);
+                if (this.action === 'attendance') {
+                  this.userAuthService.setToken(sigin);
+                  this.putAttendance();
+                } else {
+                  this.authService.setToken(sigin);
+                  this.router.navigate(['/admin']);
+                }
               }
             ).catch(
               err => {
-                this.webcamImage = null;
-                this.showWebcam = true;
-                console.error(err);
+                Swal.fire({
+                  title : "Usuario Incorrecto!!",
+                  text : "El rosro no concuerda con nuestras bases de datos.",
+                  type : "error",
+                  timer: 3000
+                });
+                window.location.reload();
               }
             );
           }
@@ -152,6 +167,26 @@ export class RekognitionComponent implements OnInit {
       err => {
         this.webcamImage = null;
         this.showWebcam = true;
+        console.error(err);
+      }
+    );
+  }
+
+  putAttendance() {
+    var attendance = this.attendanceService.getAttendance();
+    this.attendanceService.putAttendance(attendance).subscribe(
+      res => {
+        var string = JSON.stringify(res);
+        var json = JSON.parse(string);
+        if(json.ConsumedCapacity.CapacityUnits>=1){
+          this.router.navigate(['/user']);
+        }else{
+          this.userAuthService.logout();
+          window.location.reload();
+        }
+        
+      },
+      err => {
         console.error(err);
       }
     );

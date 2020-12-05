@@ -49,6 +49,10 @@ import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from '../aws-exports';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { AuthGuard } from './middleware/auth.guard';
+import { NewAttendanceComponent } from './pages/attendance/new-attendance/new-attendance.component';
+import { HeaderComponent } from './theme/layout/auth/header/header.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { ListAttendanceComponent } from './pages/attendance/list-attendance/list-attendance.component';
 Amplify.configure(awsconfig);
 
 @NgModule({
@@ -76,7 +80,11 @@ Amplify.configure(awsconfig);
     RegisterSessionComponent,
     EditUserComponent,
     ChangePasswordComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    NewAttendanceComponent,
+    WelcomeComponent,
+    HeaderComponent,
+    ListAttendanceComponent
   ],
   imports: [
     BrowserModule,

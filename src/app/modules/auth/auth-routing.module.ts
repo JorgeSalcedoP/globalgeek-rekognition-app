@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ListAttendanceComponent } from 'src/app/pages/attendance/list-attendance/list-attendance.component';
+import { NewAttendanceComponent } from 'src/app/pages/attendance/new-attendance/new-attendance.component';
 import { EditUserComponent } from 'src/app/pages/users/edit-user/edit-user.component';
 import { ListUsersComponent } from 'src/app/pages/users/list-users/list-users.component';
 import { NewUserComponent } from 'src/app/pages/users/new-user/new-user.component';
@@ -22,6 +24,10 @@ const routes: Routes = [
       {
         path : 'user/edit/:id',
         component : EditUserComponent
+      },
+      {
+        path : 'control',
+        component : ListAttendanceComponent
       }
     ]
   }

@@ -1,0 +1,65 @@
+<app-card>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="documentUser">Empleado</label>
+          <select name="" id="documentUser" class="form-control" [(ngModel)]="reporte.documentUser" (change)="employeeChange()">
+              <option value="">---Seleccione empleado--</option>
+              <option  *ngFor="let user of users;let i = index" [value]="user.documentUser.S" >{{ user.nameUser.S }} {{ user.lastnameUser.S }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="since_date">Desde:</label>
+          <input type="date" name="" id="since_date" class="form-control" (change)="sinceChange()" [(ngModel)]="reporte.since_date" />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="to_date">Hasta:</label>
+          <input type="date" name="" id="to_date" class="form-control" (change)="toChange()" [(ngModel)]="reporte.to_date" />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <button class="btn btn-warning btn-block btn-sm" (click)="cleanFilter()">LIMPIAR</button>
+          <button class="btn btn-secondary btn-block btn-sm" (click)="exportAsXLSX()">EXPORTAR</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="responsive-table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Documento</th>
+                <th>Empleado</th>
+                <th>Fecha</th>
+                <th>Registro</th>
+                <th>Marca</th>
+                <th>Horas</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let attendance of attendances;let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ attendance.documentUser }}</td>
+                <td>{{ attendance.nameAttendance }}</td>
+                <td>{{ attendance.dateAttendance }}</td>
+                <td>{{ attendance.timeAttendance }}</td>
+                <td>{{ attendance.typeAttendance }}</td>
+                <th>{{ attendance.hoursAttendance }}</th>
+                <td>{{ attendance.stateAttendance }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-card>

@@ -1,29 +1,29 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Auth } from 'aws-amplify';
 import { Observable } from 'rxjs';
+import { Auth } from 'aws-amplify';
 import { AuthService } from '../services/auth.service';
+import { UserAuthService } from '../services/user-auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class UserGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private userAuthService: UserAuthService
   ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
     
-    var user = this.authService.user;
-    if(user){
+    var user = this.userAuthService.userUser;
+    if (user) {
       return true;
-    }else{
-      this.router.navigate(['/login']);
+    } else {
+      this.router.navigate(['/asistencia']);
       return false;
     }
 

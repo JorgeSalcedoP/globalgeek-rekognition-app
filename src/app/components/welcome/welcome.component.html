@@ -1,0 +1,47 @@
+<br>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+        <div class="card borderless" style="height: 70vh;">
+            <div class="card-header" style="text-align: center;">
+                BIENVENIDO
+            </div>
+            <div class="card-body">
+                <table class="table table-sm" style="text-align: left;">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <th colspan="2">Datos Personales</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Documento:</td>
+                            <td>{{ userModel.documentUser }}</td>
+                        </tr>
+                        <tr>
+                            <td>Nombre:</td>
+                            <td>{{ userModel.nameUser }}</td>
+                        </tr>
+                        <tr>
+                            <td>Área:</td>
+                            <td>{{ userModel.positionUser }}</td>
+                        </tr>
+                        <tr>
+                            <td>Hora de Marcación:</td>
+                            <td>{{ date | date:'medium'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card borderless">
+            <div class="card-body" style="height: 70vh;text-align: center;width: auto;">
+                <img src="{{ photoUser }}" alt="" style="height: 100%;">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+

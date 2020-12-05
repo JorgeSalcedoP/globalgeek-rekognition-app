@@ -10,4 +10,5 @@ export interface UserModel {
     positionUser : string;
     rekognitionId : string;
     stateUser : string;
+    scheduleUser : string;
 }
