@@ -8,7 +8,7 @@
             <mat-horizontal-stepper linear #stepper style="text-align: center">
               <mat-step [stepControl]="formLogin">
                 <!-- [stepControl]="formLogin" -->
-                <ng-template matStepLabel>SIGN IN</ng-template>
+                <ng-template matStepLabel>INICIAR SESIÓN</ng-template>
                 <app-signin
                   [formGroup]="formLogin"
                   [loginModel]="loginModel"
@@ -17,7 +17,7 @@
                 ></app-signin>
               </mat-step>
               <mat-step>
-                <ng-template matStepLabel>VALIDATE</ng-template>
+                <ng-template matStepLabel>VALIDACIÓN</ng-template>
                 <app-rekognition
                   [loginModel]="loginModel"
                   [formGroup]="formLogin"

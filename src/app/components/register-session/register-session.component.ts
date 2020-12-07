@@ -138,7 +138,7 @@ export class RegisterSessionComponent implements OnInit {
                 console.log(user);
                 if (user.Attributes) {
                   Swal.fire({
-                    title: "Success!",
+                    title: "Registrado!",
                     text: "Usuario " + this.userModel.documentUser + " agregado correctamente.",
                     type: "success"
                   });

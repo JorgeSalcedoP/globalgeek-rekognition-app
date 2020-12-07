@@ -64,12 +64,12 @@ export class WelcomeComponent implements OnInit {
       type: 'success',
       title: 'Asistencia Registrada',
       showConfirmButton: false,
-      timer: 2000
+      timer: 4000
     });
     setTimeout(() => {
       this.userAuthService.logout();
       this.router.navigate(['/asistencia']);
-    }, 5000);
+    }, 8000);
   }
 
 

@@ -147,11 +147,12 @@ export class RekognitionComponent implements OnInit {
             ).catch(
               err => {
                 Swal.fire({
-                  title : "Usuario Incorrecto!!",
-                  text : "El rosro no concuerda con nuestras bases de datos.",
+                  title : "Usuario Incorrecto",
+                  text : "Rostro no encontrado. Ingrese nuevamente",
                   type : "error",
-                  timer: 3000
+                  timer: 4000
                 });
+                setTimeout(() => {},6000);
                 window.location.reload();
               }
             );

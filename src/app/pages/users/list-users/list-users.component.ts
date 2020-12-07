@@ -50,7 +50,7 @@ export class ListUsersComponent implements OnInit {
           res => {
             console.log(res);
             Swal.fire({
-              title: 'Eliminado',
+              title: 'Eliminado con éxito',
               text: `El usuario ${userModel.documentUser.S} fue Eliminado`,
               type: 'success',
             });

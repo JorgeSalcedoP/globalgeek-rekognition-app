@@ -12,13 +12,13 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label for="documentUser">Documento de Identidad</label>
+                        <label for="documentUser">Documento de Identidad:</label>
                         <input
                           type="text"
                           name="documentUser"
                           id="documentUser"
                           class="form-control"
-                          placeholder=""
+                          placeholder="Ingrese su documento de identidad"
                           formControlName="documentUser"
                           [ngClass]="{
                             'is-invalid': f.documentUser.invalid && f.documentUser.touched,
@@ -36,7 +36,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label for="typeAction">Marcar</label>
+                        <label for="typeAction">Registrar:</label>
                         <select
                           name="typeAction"
                           id="typeAction"
@@ -62,7 +62,7 @@
                         [disabled]="formAttendance.invalid"
                         (click)="getUser()"
                       >
-                        MARCAR
+                        REGISTRAR
                       </button>
                     </div>
                     <div class="col-md-12" style="text-align: center">

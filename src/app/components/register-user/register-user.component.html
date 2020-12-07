@@ -1,115 +1,131 @@
 <div [formGroup]="sessionForm">
   <div formGroupName="userForm" style="text-align: left">
-    <div class="form-group">
-      <label for="documentUser">DNI:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="documentUser"
-        minlength="8"
-        formControlName="documentUser"
-        placeholder=""
-        [ngClass]="{
-          'is-invalid': v.documentUser.invalid && v.documentUser.touched,
-          'is-valid': v.documentUser.valid
-        }"
-        [(ngModel)]="userModel.documentUser"
-      />
-      <div *ngIf="v.documentUser?.errors?.required" class="invalid-feedback">
-        El campo DNI es requerido
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="documentUser">DNI:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="documentUser"
+            minlength="8"
+            formControlName="documentUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid': v.documentUser.invalid && v.documentUser.touched,
+              'is-valid': v.documentUser.valid
+            }"
+            [(ngModel)]="userModel.documentUser"
+          />
+          <div *ngIf="v.documentUser?.errors?.required" class="invalid-feedback">
+            El campo DNI es requerido
+          </div>
+          <div *ngIf="v.documentUser?.errors?.pattern" class="invalid-feedback">
+            El campo DNI permite solo números
+          </div>
+          <div *ngIf="v.documentUser?.errors?.min" class="invalid-feedback">
+            El campo DNI debe tener 8 dígitos
+          </div>
+        </div>
       </div>
-      <div *ngIf="v.documentUser?.errors?.pattern" class="invalid-feedback">
-        El campo DNI permite solo números
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="nameUser">Nombres:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nameUser"
+            formControlName="nameUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid': v.nameUser.invalid && v.nameUser.touched,
+              'is-valid': v.nameUser.valid
+            }"
+            [(ngModel)]="userModel.nameUser"
+          />
+          <div *ngIf="v.nameUser?.errors?.required" class="invalid-feedback">
+            El campo nombres es requerido
+          </div>
+          <div *ngIf="v.nameUser?.errors?.pattern" class="invalid-feedback">
+            El campo nombres permite solo texto
+          </div>
+        </div>
       </div>
-      <div *ngIf="v.documentUser?.errors?.min" class="invalid-feedback">
-        El campo DNI debe tener 8 dígitos
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="nameUser">Nombres:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="nameUser"
-        formControlName="nameUser"
-        placeholder=""
-        [ngClass]="{
-          'is-invalid': v.nameUser.invalid && v.nameUser.touched,
-          'is-valid': v.nameUser.valid
-        }"
-        [(ngModel)]="userModel.nameUser"
-      />
-      <div *ngIf="v.nameUser?.errors?.required" class="invalid-feedback">
-        El campo nombres es requerido
-      </div>
-      <div *ngIf="v.nameUser?.errors?.pattern" class="invalid-feedback">
-        El campo nombres permite solo texto
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="lastnameUser">Apellidos:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="lastnameUser"
-        formControlName="lastnameUser"
-        placeholder=""
-        [ngClass]="{
-          'is-invalid': v.lastnameUser.invalid && v.lastnameUser.touched,
-          'is-valid': v.lastnameUser.valid
-        }"
-        [(ngModel)]="userModel.lastnameUser"
-      />
-      <div *ngIf="v.lastnameUser?.errors?.required" class="invalid-feedback">
-        El campo apellidos es requerido
-      </div>
-      <div *ngIf="v.lastnameUser?.errors?.pattern" class="invalid-feedback">
-        El campo apellidos permite solo texto
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="personalEmailUser">Correo Personal:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="personalEmailUser"
-        formControlName="personalEmailUser"
-        placeholder=""
-        [ngClass]="{
-          'is-invalid':
-            v.personalEmailUser.invalid && v.personalEmailUser.touched,
-          'is-valid': v.personalEmailUser.valid
-        }"
-        [(ngModel)]="userModel.personalEmailUser"
-      />
-      <div *ngIf="v.personalEmailUser?.errors?.required" class="invalid-feedback">
-        El campo correo es requerido
-      </div>
-      <div *ngIf="v.personalEmailUser?.errors?.email" class="invalid-feedback">
-        El campo debe tener un formato de correo
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="lastnameUser">Apellidos:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastnameUser"
+            formControlName="lastnameUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid': v.lastnameUser.invalid && v.lastnameUser.touched,
+              'is-valid': v.lastnameUser.valid
+            }"
+            [(ngModel)]="userModel.lastnameUser"
+          />
+          <div *ngIf="v.lastnameUser?.errors?.required" class="invalid-feedback">
+            El campo apellidos es requerido
+          </div>
+          <div *ngIf="v.lastnameUser?.errors?.pattern" class="invalid-feedback">
+            El campo apellidos permite solo texto
+          </div>
+        </div>
       </div>
     </div>
-    <div class="form-group">
-      <label for="phoneUser">Celular:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="phoneUser"
-        formControlName="phoneUser"
-        placeholder=""
-        [ngClass]="{
-          'is-invalid': v.phoneUser.invalid && v.phoneUser.touched,
-          'is-valid': v.phoneUser.valid
-        }"
-        [(ngModel)]="userModel.phoneUser"
-      />
-      <div *ngIf="v.phoneUser?.errors?.required" class="invalid-feedback">
-        El campo celular es requerido
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="personalEmailUser">Correo Personal:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="personalEmailUser"
+            formControlName="personalEmailUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid':
+                v.personalEmailUser.invalid && v.personalEmailUser.touched,
+              'is-valid': v.personalEmailUser.valid
+            }"
+            [(ngModel)]="userModel.personalEmailUser"
+          />
+          <div *ngIf="v.personalEmailUser?.errors?.required" class="invalid-feedback">
+            El campo correo es requerido
+          </div>
+          <div *ngIf="v.personalEmailUser?.errors?.email" class="invalid-feedback">
+            El campo debe tener un formato de correo
+          </div>
+        </div>
       </div>
-      <div *ngIf="v.phoneUser?.errors?.pattern" class="invalid-feedback">
-        El campo DNI permite solo números
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="phoneUser">Celular:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="phoneUser"
+            formControlName="phoneUser"
+            placeholder=""
+            [ngClass]="{
+              'is-invalid': v.phoneUser.invalid && v.phoneUser.touched,
+              'is-valid': v.phoneUser.valid
+            }"
+            [(ngModel)]="userModel.phoneUser"
+          />
+          <div *ngIf="v.phoneUser?.errors?.required" class="invalid-feedback">
+            El campo celular es requerido
+          </div>
+          <div *ngIf="v.phoneUser?.errors?.pattern" class="invalid-feedback">
+            El campo DNI permite solo números
+          </div>
+        </div>
       </div>
     </div>
+
+
     <div class="form-group">
       <label for="directionUser">Dirección:</label>
       <input

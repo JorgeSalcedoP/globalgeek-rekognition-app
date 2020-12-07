@@ -64,10 +64,12 @@ export class NewAttendanceComponent implements OnInit {
         var string = JSON.stringify(res);
         var json = JSON.parse(string);
         if (json.S === '0') {
-          this.error = "El empleado no se encuentra registrado"
+          this.error = "El empleado no se encuentra registrado."
         } else if (json.S === '1') {
           this.error = `Usted ya registro su ${this.formAttendance.value.typeAction}`
-        } else {
+        } else if(json.S === '2'){
+          this.error = "Usted no ha registrado su entrada."
+        }else{
           Auth.signIn(json.S).then(
             sigin => {
               this.setAttendance(json);
