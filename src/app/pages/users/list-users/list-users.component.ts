@@ -48,7 +48,6 @@ export class ListUsersComponent implements OnInit {
       if (resp.value) {
         this.userService.deleteUser(userModel).subscribe(
           res => {
-            console.log(res);
             Swal.fire({
               title: 'Eliminado con éxito',
               text: `El usuario ${userModel.documentUser.S} fue Eliminado`,

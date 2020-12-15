@@ -135,7 +135,6 @@ export class RekognitionComponent implements OnInit {
           async user => {
             await Auth.sendCustomChallengeAnswer(user, photo.Key).then(
               sigin => {
-                console.log(sigin);
                 if (this.action === 'attendance') {
                   this.userAuthService.setToken(sigin);
                   this.putAttendance();

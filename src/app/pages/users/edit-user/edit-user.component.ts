@@ -50,7 +50,6 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
     var id = this.activeRoute.snapshot.params.id;
-    console.log(this.activeRoute.snapshot);
     this.getUser(id);
   }
 
@@ -72,7 +71,7 @@ export class EditUserComponent implements OnInit {
           this.userModel.scheduleUser = res.scheduleUser.S;
         },
         err => {
-          console.log(err);
+          console.error(err);
         }
       );
     }
@@ -82,7 +81,6 @@ export class EditUserComponent implements OnInit {
   updateUser() {
     this.userService.updateUser(this.userModel).subscribe(
       res => {
-        console.log(res);
         Swal.fire({
           title : 'Actualizado!',
           text : `Usuario ${this.userModel.documentUser} actualizado!`,

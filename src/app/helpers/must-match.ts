@@ -10,7 +10,6 @@ export function MustMatch(controlName: string, matchingControlName: string) {
         }
 
         if (control.value !== matchingControl.value) {
-            console.log(control);
             matchingControl.setErrors({ mustMatch: true });
         } else {
             matchingControl.setErrors(null);

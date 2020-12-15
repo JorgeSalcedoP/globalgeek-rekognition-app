@@ -40,7 +40,7 @@ export class SigninComponent implements OnInit {
     ).catch(
       err => {
         this.isError = true;
-        console.log(err);
+        console.error(err);
       }
     );
   }

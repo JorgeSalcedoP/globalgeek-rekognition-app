@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { AuthGuard } from './middleware/auth.guard';
 import { UserGuard } from './middleware/user.guard';
 import { NewAttendanceComponent } from './pages/attendance/new-attendance/new-attendance.component';

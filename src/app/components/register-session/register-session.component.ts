@@ -50,7 +50,6 @@ export class RegisterSessionComponent implements OnInit {
   get v() { return this.sessionForm.controls.userForm['controls'] }
 
   fileChangeEvent(event: any): void {
-    console.log(event.target.files[0]);
     var file = event.target.files[0];
     if (file.type === 'image/jpeg') {
       this.photoUser.type = file.type;
@@ -135,7 +134,6 @@ export class RegisterSessionComponent implements OnInit {
           res => {
             this.userService.createUser(this.userModel).subscribe(
               user => {
-                console.log(user);
                 if (user.Attributes) {
                   Swal.fire({
                     title: "Registrado!",

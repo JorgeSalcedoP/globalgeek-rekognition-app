@@ -16,7 +16,6 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     var url = this.router.url.split('/')[1];
     return next.handle(req).pipe(catchError(err => {
-      console.log(err);
       if (err.status === 0 || err.status == 401) {
         if(url === 'admin'){
           this.authService.logout();

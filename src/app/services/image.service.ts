@@ -11,7 +11,6 @@ export class ImageService {
   constructor(private http: HttpClient) { }
 
   detectFaces(photoUser: any): any {
-    console.log(photoUser);
     return this.http.post(`${environment.apiUrl}/detectface`, photoUser);
   }
 

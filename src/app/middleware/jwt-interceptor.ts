@@ -23,9 +23,6 @@ export class JwtInterceptor implements HttpInterceptor {
     if(localStorage.getItem("tokenUser")!=null){
       this.tokenUser = localStorage.getItem("tokenUser").replace(/['"]+/g, '');
     }
-
-    console.log(this.token);
-    console.log(this.tokenUser);
     
     if(this.token){
       req = req.clone({

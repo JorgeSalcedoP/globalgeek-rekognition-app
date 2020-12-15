@@ -60,7 +60,6 @@ export class NewAttendanceComponent implements OnInit {
     this.error = "";
     this.userService.getUserInformation(this.formAttendance.value.documentUser, this.formAttendance.value.typeAction).subscribe(
       res => {
-        console.log(res);
         var string = JSON.stringify(res);
         var json = JSON.parse(string);
         if (json.S === '0') {

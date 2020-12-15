@@ -40,7 +40,7 @@ export class ListAttendanceComponent implements OnInit {
         this.users = res;
       },
       err => {
-        console.log(err);
+        console.error(err);
       }
     );
   }
@@ -48,7 +48,6 @@ export class ListAttendanceComponent implements OnInit {
   getAttendances() {
     this.attendanceService.getAttendances().subscribe(
       res => {
-        console.log(res);
         this.attendances = res;
         this.attendancesSelected = res;
       },
@@ -76,11 +75,8 @@ export class ListAttendanceComponent implements OnInit {
   }
 
   toChange() {
-    console.log(this.reporte);
     if (this.reporte.since_date === '' && this.reporte.documentUser === '') {
       let filter = this.attendancesSelected.filter(item => item.dateAttendance <= this.datePipe.transform(this.reporte.to_date, 'dd/MM/yy'));
-      console.log(this.attendancesSelected);
-      console.log(filter);
       this.attendances = filter;
     } else if (this.reporte.since_date === '' && this.reporte.documentUser != '') {
       let filter = this.attendancesSelected.filter(item => item.dateAttendance <= this.datePipe.transform(this.reporte.to_date, 'dd/MM/yy') && item.documentUser === this.reporte.documentUser);
@@ -130,7 +126,6 @@ export class ListAttendanceComponent implements OnInit {
       if (result.value) {
         let table = [];
         this.attendances.forEach(item => {
-          console.log(new Date(item.datetime));
           let row = [item.documentUser, item.nameAttendance, item.datetime, this.datePipe.transform(item.dateAttendance, 'dd/MM/yy'), item.timeAttendance, item.typeAttendance, item.hoursAttendance, item.stateAttendance];
           table.push(row);
         });
