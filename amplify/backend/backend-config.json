@@ -25,6 +25,5 @@
       "dependsOn": [],
       "identifyType": "identifyEntities"
     }
-  },
-  "hosting": {}
+  }
 }
