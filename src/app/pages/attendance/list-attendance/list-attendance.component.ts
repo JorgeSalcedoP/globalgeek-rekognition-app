@@ -125,8 +125,8 @@ export class ListAttendanceComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         let table = [];
-        this.attendances.forEach(item => {
-          let row = [item.documentUser, item.nameAttendance, item.datetime, this.datePipe.transform(item.dateAttendance, 'dd/MM/yy'), item.timeAttendance, item.typeAttendance, item.hoursAttendance, item.stateAttendance];
+        this.attendancesSelected.forEach(item => {
+          let row = [item.documentUser, item.nameAttendance, item.datetime, item.dateAttendance, item.timeAttendance, item.typeAttendance, item.hoursAttendance, item.stateAttendance];
           table.push(row);
         });
         this.excelService.generateExcel(table);

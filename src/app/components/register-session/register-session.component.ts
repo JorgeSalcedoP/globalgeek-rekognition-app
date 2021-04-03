@@ -30,7 +30,8 @@ export class RegisterSessionComponent implements OnInit {
     name: '',
     type: '',
     size: 0,
-    dni: ''
+    dni: '',
+    url : 'session'
   }
 
   constructor(
@@ -69,19 +70,25 @@ export class RegisterSessionComponent implements OnInit {
       res => {
         var json_string = JSON.stringify(res);
         var json = JSON.parse(json_string);
-        if (json.FaceDetails.length == 0) {
+        if (json.StatusCode == 404) {
           Swal.fire({
             title: 'Rostro no encontrado',
             text: 'Por favor, seleccione una imagen que contenga un rostro en ella.',
             type: 'error'
           })
-        } else if (json.FaceDetails.length > 1) {
+        } else if (json.StatusCode == 255) {
           Swal.fire({
             title: 'Rostros encontrados',
             text: 'Por favor, seleccione una imagen que contenga solo un rostro en ella.',
             type: 'warning'
           })
-        } else {
+        } else if (json.StatusCode == 239){
+          Swal.fire({
+            title: 'Rostro registrado',
+            text: 'El rostro ya fue registrado, seleccione una imagen diferente',
+            type: 'warning'
+          })
+        }else {
           this.croppedImage = event.base64;
           this.photoUser.file = event.base64;
           this.isPhoto = true;
@@ -123,13 +130,14 @@ export class RegisterSessionComponent implements OnInit {
     }
   }
 
-  async getValue() {
+  getValue() {
     this.photoUser.dni = this.userModel.documentUser;
     this.photoUser.name = this.userModel.documentUser + ".jpg";
     this.validateSize(this.photoUser);
 
     this.imageService.putFace(this.photoUser).subscribe(
       photo => {
+        
         this.userService.signUp(this.userModel).subscribe(
           res => {
             this.userService.createUser(this.userModel).subscribe(

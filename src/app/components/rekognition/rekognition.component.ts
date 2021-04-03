@@ -38,7 +38,8 @@ export class RekognitionComponent implements OnInit {
     name: '',
     type: '',
     size: 0,
-    dni: ''
+    dni: '',
+    url : 'validate'
   }
   public showWebcam = false;
   public allowCameraSwitch = true;
@@ -84,10 +85,13 @@ export class RekognitionComponent implements OnInit {
     this.photoUser = {
       file: ";" + "," + this.webcamImage.imageAsBase64,
       type: "image/jpeg",
-      name: this.loginModel.username + ".jpg"
+      name: this.loginModel.username + ".jpg",
+      url : 'validate'
     }
+    console.log(this.photoUser);
     this.imageService.detectFaces(this.photoUser).subscribe(
       res => {
+        console.log(res);
         var json_string = JSON.stringify(res);
         var json = JSON.parse(json_string);
         if (json.FaceDetails.length == 0) {
@@ -128,13 +132,18 @@ export class RekognitionComponent implements OnInit {
   customChallenge() {
     this.isValid = true;
     this.loading = true;
-    Auth.signOut({ global: true });
+    Auth.signOut();
     this.imageService.signinPhoto(this.photoUser).subscribe(
       photo => {
         Auth.signIn(this.loginModel.username).then(
           async user => {
+            console.log(user);
             await Auth.sendCustomChallengeAnswer(user, photo.Key).then(
               sigin => {
+                console.log(sigin);
+                var json_string = JSON.stringify(sigin);
+                var json = JSON.parse(json_string);
+                console.log(json.attributes["custom:position"]);
                 if (this.action === 'attendance') {
                   this.userAuthService.setToken(sigin);
                   this.putAttendance();
@@ -145,6 +154,7 @@ export class RekognitionComponent implements OnInit {
               }
             ).catch(
               err => {
+                console.error(err);
                 Swal.fire({
                   title : "Usuario Incorrecto",
                   text : "Rostro no encontrado. Ingrese nuevamente",

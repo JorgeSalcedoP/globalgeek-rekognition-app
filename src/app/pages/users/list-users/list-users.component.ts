@@ -29,6 +29,7 @@ export class ListUsersComponent implements OnInit {
   getUsers() {
     this.userService.getUsers().subscribe(
       res => {
+        console.log(res);
         this.users = res;
       },
       err => {

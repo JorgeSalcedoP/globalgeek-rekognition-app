@@ -43,9 +43,7 @@ export class ExcelService {
     });
 
     data.forEach(d => {
-      let row = worksheet.addRow(d);
-      row.getCell(4).value = new Date(d[3]);
-
+      worksheet.addRow(d);
     });
 
     worksheet.getColumn(1).width = 10;

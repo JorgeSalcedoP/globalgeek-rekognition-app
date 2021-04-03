@@ -193,7 +193,7 @@ export class NavContentComponent implements OnInit, AfterViewInit {
       confirmButtonText: 'Cerrar'
     }).then((result) => {
       if (result.value) {
-        Auth.signOut({ global: true }).then(
+        Auth.signOut().then(
           res => {
             this.authService.logout();
             this.router.navigate(['login']);
