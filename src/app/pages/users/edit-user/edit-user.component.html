@@ -173,12 +173,7 @@
                 }"
                 [(ngModel)]="userModel.positionUser"
               >
-              <option value="">---- Seleccione ----</option>
-              <option value="Administrador">Administrador</option>
-              <option value="Sistemas">Sistemas</option>
-              <option value="Contabilidad">Contabilidad</option>
-              <option value="Administrativo">Personal Administrativo</option>
-              <option value="Comercial">Comercial</option>
+              <option  *ngFor="let position of arrayPosition;let i = index" [value]="position.key" >{{ position.value }}</option>
               </select>
             </div>
           </div>
@@ -196,8 +191,7 @@
                 [(ngModel)]="userModel.scheduleUser"
               >
                 <option value="">---- Seleccione ----</option>
-                <option value="8">Horario Completo</option>
-                <option value="4">Medio Tiempo</option>
+                <option  *ngFor="let schedule of arraySchedule;let i = index" [value]="schedule.key" >{{ schedule.value }}</option>
               </select>
             </div>
           </div>

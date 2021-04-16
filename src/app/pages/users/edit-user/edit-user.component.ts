@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserModel } from 'src/app/model/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -13,6 +14,8 @@ import Swal from 'sweetalert2';
 export class EditUserComponent implements OnInit {
 
   editForm : FormGroup;
+  arrayPosition : any = [];
+  arraySchedule : any = [];
 
   userModel: UserModel = {
     documentUser: '',
@@ -33,7 +36,7 @@ export class EditUserComponent implements OnInit {
     private userService: UserService,
     private activeRoute :  ActivatedRoute,
     private fb:FormBuilder,
-    private router : Router,
+    private router : Router
   ) {
     this.editForm = this.fb.group({
       documentUser : [{value : '', disabled : true}],
@@ -49,6 +52,7 @@ export class EditUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getData();
     var id = this.activeRoute.snapshot.params.id;
     this.getUser(id);
   }
@@ -97,6 +101,11 @@ export class EditUserComponent implements OnInit {
         });
       }
     );
+  }
+
+  getData(){
+    this.arrayPosition = JSON.parse(localStorage.getItem("PositionUser"));
+    this.arraySchedule = JSON.parse(localStorage.getItem("ScheduleUser"));
   }
 
 }

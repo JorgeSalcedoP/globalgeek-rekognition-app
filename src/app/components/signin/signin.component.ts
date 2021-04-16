@@ -18,6 +18,7 @@ export class SigninComponent implements OnInit {
   
   public formLogin: FormGroup;
   isError: boolean = false;
+  messageError : string = ""
 
   constructor(private controlContainer: ControlContainer, private router: Router, private authService: AuthService) { }
 
@@ -40,7 +41,11 @@ export class SigninComponent implements OnInit {
     ).catch(
       err => {
         this.isError = true;
-        console.error(err);
+        if(err.code === "UserLambdaValidationException"){
+          this.messageError = "El usuario no tiene acceso a esta sección"
+        }else{
+          this.messageError = err.message;
+        }
       }
     );
   }

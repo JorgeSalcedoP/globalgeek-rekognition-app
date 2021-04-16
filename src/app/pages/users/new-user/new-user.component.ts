@@ -35,7 +35,7 @@ export class NewUserComponent implements OnInit {
         nameUser: ['', [Validators.required, Validators.pattern('^[a-zA-ZñÑÁÉÍÓÚáéíóú ]+$')]],
         lastnameUser: ['', [Validators.required, Validators.pattern('^[a-zA-ZñÑÁÉÍÓÚáéíóú ]+$')]],
         personalEmailUser: ['', [Validators.required, Validators.email]],
-        phoneUser: ['', [Validators.required, Validators.pattern('[0-9]*')]],
+        phoneUser: ['', [Validators.required, Validators.pattern('[0-9]*'),Validators.min(7)]],
         directionUser: ['', [Validators.required]],
       }),
       emailUser: [{ value: '', disabled: true }],

@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { UserModel } from '../model/user.model';
 import {Auth} from "aws-amplify";
 import { LoginModel } from '../model/login';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,11 @@ export class AuthService {
     getToken(){
       this.token = localStorage.getItem("token");
       
+    }
+
+
+    getCommonData(){
+      return this.http.get(`${environment.apiUrl}/commondata`);
     }
 
 

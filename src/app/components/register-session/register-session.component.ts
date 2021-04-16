@@ -24,6 +24,9 @@ export class RegisterSessionComponent implements OnInit {
   public sessionForm: FormGroup;
   photoUrl: any = '';
   isPhoto: boolean = false;
+  arrayPosition : any = [];
+  arraySchedule : any = [];
+  
 
   photoUser: any = {
     file: '',
@@ -31,7 +34,7 @@ export class RegisterSessionComponent implements OnInit {
     type: '',
     size: 0,
     dni: '',
-    url : 'session'
+    url: 'session'
   }
 
   constructor(
@@ -44,6 +47,7 @@ export class RegisterSessionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getData();
     this.sessionForm = <FormGroup>this.controlContainer.control;
   }
 
@@ -82,13 +86,13 @@ export class RegisterSessionComponent implements OnInit {
             text: 'Por favor, seleccione una imagen que contenga solo un rostro en ella.',
             type: 'warning'
           })
-        } else if (json.StatusCode == 239){
+        } else if (json.StatusCode == 239) {
           Swal.fire({
             title: 'Rostro registrado',
             text: 'El rostro ya fue registrado, seleccione una imagen diferente',
             type: 'warning'
           })
-        }else {
+        } else {
           this.croppedImage = event.base64;
           this.photoUser.file = event.base64;
           this.isPhoto = true;
@@ -137,28 +141,38 @@ export class RegisterSessionComponent implements OnInit {
 
     this.imageService.putFace(this.photoUser).subscribe(
       photo => {
-        
         this.userService.signUp(this.userModel).subscribe(
           res => {
-            this.userService.createUser(this.userModel).subscribe(
-              user => {
-                if (user.Attributes) {
+            var json_string = JSON.stringify(res);
+            var json = JSON.parse(json_string);
+            if (json.StatusCode == 200) {
+              this.userService.createUser(this.userModel).subscribe(
+                user => {
+                  if (user.Attributes) {
+                    Swal.fire({
+                      title: "Registrado!",
+                      text: "Usuario " + this.userModel.documentUser + " agregado correctamente.",
+                      type: "success"
+                    });
+                    this.router.navigate(['../../users'], { relativeTo: this.activeRoute });
+                  }
+                },
+                err => {
                   Swal.fire({
-                    title: "Registrado!",
-                    text: "Usuario " + this.userModel.documentUser + " agregado correctamente.",
-                    type: "success"
+                    title: "Error!",
+                    text: "Usuario " + this.userModel.documentUser + " no agregado.",
+                    type: "error"
                   });
-                  this.router.navigate(['../../users'], { relativeTo: this.activeRoute });
                 }
-              },
-              err => {
-                Swal.fire({
-                  title: "Error!",
-                  text: "Usuario " + this.userModel.documentUser + " no agregado.",
-                  type: "error"
-                });
-              }
-            );
+              );
+            } else {
+              Swal.fire({
+                title: "Error!",
+                text: "Usuario " + this.userModel.documentUser + " no agregado.",
+                type: "error"
+              });
+            }
+
           },
           err => {
             Swal.fire({
@@ -175,6 +189,11 @@ export class RegisterSessionComponent implements OnInit {
       }
     );
 
+  }
+
+  getData(){
+    this.arrayPosition = JSON.parse(localStorage.getItem("PositionUser"));
+    this.arraySchedule = JSON.parse(localStorage.getItem("ScheduleUser"));
   }
 
 }

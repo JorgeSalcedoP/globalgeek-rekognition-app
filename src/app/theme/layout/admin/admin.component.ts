@@ -2,6 +2,7 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { NextConfig } from '../../../app-config';
 import { Location } from '@angular/common';
 import { Auth } from 'aws-amplify';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -14,7 +15,7 @@ export class AdminComponent implements OnInit {
   public navCollapsedMob: boolean;
   public windowWidth: number;
 
-  constructor(private zone: NgZone, private location: Location) {
+  constructor(private zone: NgZone, private location: Location,private authService:AuthService) {
     this.flatConfig = NextConfig.config;
     let currentURL = this.location.path();
     const baseHerf = this.location['_baseHref'];
@@ -36,6 +37,7 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getCommonData();
     if (this.windowWidth < 992) {
       this.flatConfig.layout = 'vertical';
       setTimeout(() => {
@@ -56,6 +58,20 @@ export class AdminComponent implements OnInit {
         this.navCollapsedMob = !this.navCollapsedMob;
       }
     }
+  }
+
+  getCommonData(){
+    this.authService.getCommonData().subscribe(
+      data => {
+        var json_string = JSON.stringify(data);
+        var json = JSON.parse(json_string);
+        localStorage.setItem("PositionUser",JSON.stringify(json.positionUser));
+        localStorage.setItem("ScheduleUser",JSON.stringify(json.scheduleUser));
+      },
+      err =>{
+        console.error(err);
+      }
+    );
   }
 
 }

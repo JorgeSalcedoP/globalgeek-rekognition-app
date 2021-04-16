@@ -119,7 +119,10 @@
             El campo celular es requerido
           </div>
           <div *ngIf="v.phoneUser?.errors?.pattern" class="invalid-feedback">
-            El campo DNI permite solo números
+            El campo celular permite solo números
+          </div>
+          <div *ngIf="v.phoneUser?.errors?.min" class="invalid-feedback">
+            El campo celular debe tener al menos 7 dígitos
           </div>
         </div>
       </div>
